@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One&display=swap');
+
+$material-dark: (
+  'background': #212121,
+);
+
+$body-font-family: 'Montserrat Alternates', sans-serif;
+$heading-font-family: 'Fredoka One', sans-serif;
+
+$headings: (
+  'button': (
+    'font-family': $heading-font-family,
+  ),
+);
+
+$border-radius-root: 1rem;
