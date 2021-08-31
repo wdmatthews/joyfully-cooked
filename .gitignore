@@ -91,3 +91,6 @@ sw.*
 
 # Editor config
 .editorconfig
+
+# Logo
+Logo.pxd
