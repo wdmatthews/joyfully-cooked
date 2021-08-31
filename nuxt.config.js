@@ -45,6 +45,9 @@ export default {
         },
       },
     },
+    defaultAssets: {
+      icons: 'fa',
+    },
   },
   build: {},
 }
