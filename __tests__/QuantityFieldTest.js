@@ -1,5 +1,9 @@
 import { mount } from '@vue/test-utils'
+import Vue from 'vue'
+import Vuetify from 'vuetify'
 import QuantityField from '@/components/QuantityField.vue'
+
+Vue.use(Vuetify)
 
 function createQuantityField(props) {
   const propsData = props ?? {
@@ -8,6 +12,7 @@ function createQuantityField(props) {
   }
   
   const wrapper = mount(QuantityField, {
+    vuetify: new Vuetify(),
     propsData,
     listeners: {
       input: (value) => {
