@@ -8,6 +8,7 @@ export default {
       
       if (item.id === itemToAdd.id) {
         item.quantity += quantity
+        window.localStorage.setItem('order', JSON.stringify(state.items))
         return
       }
     }
