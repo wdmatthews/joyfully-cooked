@@ -1,7 +1,7 @@
 <template>
   <v-card class="blue-grey darken-4">
-    <v-card-title class="text-h5 text-center blue-grey darken-3">
-      {{ category.name }}
+    <v-card-title class="text-h5 blue-grey darken-3">
+      <span class="mx-auto">{{ category.name }}</span>
     </v-card-title>
     <v-card-text>
       <v-list

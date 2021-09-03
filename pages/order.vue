@@ -96,15 +96,37 @@
         class="mx-auto pa-2"
       >
         <v-card color="blue-grey darken-4">
-          <v-card-title class="text-h5 text-center blue-grey darken-3">
-            Payment Details
+          <v-card-title class="text-h5 blue-grey darken-3">
+            <span class="mx-auto">Payment Details</span>
           </v-card-title>
-          <v-card-text>
-            
+          <v-card-text class="pa-4">
+            <p class="mb-0 text-center">
+              Subtotal: ${{ subtotal.toFixed(2) }}<br>
+              Taxes: ${{ taxes.toFixed(2) }}
+            </p>
+            <p class="mb-0 text-center text-h6">
+              Total: ${{ total.toFixed(2) }}
+            </p>
           </v-card-text>
+          <v-card-actions class="px-4 pt-0 pb-4">
+            <v-spacer />
+            <v-btn
+              color="primary"
+              outlined
+              class="text-button"
+              @click="purchaseOrder"
+            >
+              <v-icon left>
+                fas fa-dollar-sign
+              </v-icon>
+              Purchase
+            </v-btn>
+            <v-spacer />
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
+    <response-snackbar ref="responseSnackbar" />
   </div>
 </template>
 
@@ -134,6 +156,7 @@ export default {
         quantity: 1,
       },
     ],
+    taxRate: 0.05,
   }),
   head: vm => ({
     title: 'Order',
@@ -141,6 +164,17 @@ export default {
   computed: {
     orderIsEmpty() {
       return this.items.length === 0
+    },
+    subtotal() {
+      return this.items.reduce((subtotal, item) => {
+        return subtotal + item.price * item.quantity
+      }, 0)
+    },
+    taxes() {
+      return this.taxRate * this.subtotal
+    },
+    total() {
+      return this.subtotal + this.taxes
     },
   },
   methods: {
@@ -152,6 +186,9 @@ export default {
     },
     removeAllItems() {
       this.items = []
+    },
+    purchaseOrder() {
+      this.$refs.responseSnackbar.show('Order purchased successfully', 'success', 'check-circle')
     },
   },
 }

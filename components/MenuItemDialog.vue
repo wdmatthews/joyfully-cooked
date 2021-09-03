@@ -14,8 +14,8 @@
         :alt="`An image of ${item.name}`"
         :src="require(`~/assets/images/${item.image}`)"
       />
-      <v-card-title class="pa-4 text-h5 text-center blue-grey darken-3">
-        {{ item.name }}
+      <v-card-title class="pa-4 text-h5 blue-grey darken-3">
+        <span class="mx-auto">{{ item.name }}</span>
       </v-card-title>
       <v-card-text class="pa-4">
         <p v-text="item.description" />
