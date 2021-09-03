@@ -5,19 +5,19 @@
     </h1>
     <v-row
       no-gutters
-      justify="center"
       class="pa-2"
+      style="flex-direction: column;"
     >
       <v-col
         cols="12"
         md="6"
-        class="pa-2"
+        class="mx-auto pa-2"
       >
         <v-card color="blue-grey darken-4">
           <v-card-text class="pa-2">
             <div
-              v-show="items.length === 0"
-              class="pa-2 text-center"
+              v-show="orderIsEmpty"
+              class="pa-2"
             >
               <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
               Your order is empty, but you can fill it up at the <nuxt-link to="/menu">menu</nuxt-link>!
@@ -65,9 +65,42 @@
                 class="d-md-none ml-4 text-button"
                 @click="removeItem(item, i)"
               >
-                <v-icon>fas fa-trash</v-icon>
+                <v-icon small>
+                  fas fa-trash
+                </v-icon>
               </v-btn>
             </v-row>
+            <div
+              v-show="!orderIsEmpty"
+              class="text-center my-2"
+            >
+              <v-btn
+                color="error"
+                outlined
+                class="text-button"
+                @click="removeAllItems"
+              >
+                <v-icon left>
+                  fas fa-trash
+                </v-icon>
+                Remove All
+              </v-btn>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+        v-show="!orderIsEmpty"
+        cols="12"
+        md="6"
+        class="mx-auto pa-2"
+      >
+        <v-card color="blue-grey darken-4">
+          <v-card-title class="text-h5 text-center blue-grey darken-3">
+            Payment Details
+          </v-card-title>
+          <v-card-text>
+            
           </v-card-text>
         </v-card>
       </v-col>
@@ -105,12 +138,20 @@ export default {
   head: vm => ({
     title: 'Order',
   }),
+  computed: {
+    orderIsEmpty() {
+      return this.items.length === 0
+    },
+  },
   methods: {
     setItemQuantity(item, quantity) {
       item.quantity = quantity
     },
     removeItem(item, index) {
       this.items.splice(index, 1)
+    },
+    removeAllItems() {
+      this.items = []
     },
   },
 }
