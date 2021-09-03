@@ -38,6 +38,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.preferredQuantity = `${this.value}`
+  },
   methods: {
     parsePreferredQuantity() {
       this.preferredQuantity = this.preferredQuantity.replace(/[^0-9]/g, '')

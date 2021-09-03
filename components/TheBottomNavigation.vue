@@ -12,8 +12,8 @@
     >
       <template v-if="link.isOrder">
         <v-badge
-          :content="3"
-          :value="3"
+          :content="totalOrderQuantity"
+          :value="totalOrderQuantity"
           color="secondary darken-2"
           overlap
           :offset-y="-4"
@@ -37,5 +37,10 @@ export default {
   data: vm => ({
     links,
   }),
+  computed: {
+    totalOrderQuantity() {
+      return this.$store.getters.totalOrderQuantity
+    },
+  },
 }
 </script>

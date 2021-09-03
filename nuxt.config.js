@@ -22,7 +22,9 @@ export default {
     ],
   },
   css: [],
-  plugins: [],
+  plugins: [
+    '~/plugins/order.client.js',
+  ],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module',

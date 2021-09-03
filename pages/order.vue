@@ -44,14 +44,14 @@
                 <quantity-field
                   :item="item"
                   :value="item.quantity"
-                  @input="setItemQuantity(item, $event)"
+                  @input="setItemQuantity(i, $event)"
                 />
               </v-col>
               <v-btn
                 color="error"
                 outlined
                 class="d-none d-md-flex ml-4 text-button"
-                @click="removeItem(item, i)"
+                @click="removeItem(i)"
               >
                 <v-icon left>
                   fas fa-trash
@@ -63,7 +63,7 @@
                 outlined
                 icon
                 class="d-md-none ml-4 text-button"
-                @click="removeItem(item, i)"
+                @click="removeItem(i)"
               >
                 <v-icon small>
                   fas fa-trash
@@ -131,31 +131,11 @@
 </template>
 
 <script>
+import categories from '~/assets/data/categories'
+
 export default {
   data: vm => ({
-    items: [
-      {
-        id: '1',
-        name: 'Waffle',
-        image: 'waffle.png',
-        price: 1.00,
-        quantity: 1,
-      },
-      {
-        id: '2',
-        name: 'Pancakes',
-        image: 'pancakes.png',
-        price: 1.50,
-        quantity: 1,
-      },
-      {
-        id: '3',
-        name: 'Turkey Sandwich',
-        image: 'turkeysandwich.png',
-        price: 1.75,
-        quantity: 1,
-      },
-    ],
+    items: [],
     taxRate: 0.05,
   }),
   head: vm => ({
@@ -176,18 +156,41 @@ export default {
     total() {
       return this.subtotal + this.taxes
     },
+    allItems() {
+      return categories.reduce((items, category) => {
+        return items.concat(category.items)
+      }, [])
+    },
+    allItemsById() {
+      return this.allItems.reduce((itemsById, item) => {
+        itemsById[item.id] = item
+        return itemsById
+      }, {})
+    },
+  },
+  mounted() {
+    this.$store.state.items.forEach((item) => {
+      this.items.push({
+        ...this.allItemsById[item.id],
+        ...item,
+      })
+    })
   },
   methods: {
-    setItemQuantity(item, quantity) {
-      item.quantity = quantity
+    setItemQuantity(index, quantity) {
+      this.$store.commit('setItemQuantity', { index, quantity })
+      this.items[index].quantity = quantity
     },
-    removeItem(item, index) {
+    removeItem(index) {
+      this.$store.commit('removeItem', index)
       this.items.splice(index, 1)
     },
     removeAllItems() {
       this.items = []
+      this.$store.commit('removeAllItems')
     },
     purchaseOrder() {
+      this.$store.commit('removeAllItems')
       this.$refs.responseSnackbar.show('Order purchased successfully', 'success', 'check-circle')
     },
   },
