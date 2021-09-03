@@ -21,7 +21,7 @@
         <p v-text="item.description" />
         <v-row no-gutters>
           <v-col class="pr-4">
-            <menu-item-quantity-field
+            <quantity-field
               v-model="quantity"
               :item="item"
             />

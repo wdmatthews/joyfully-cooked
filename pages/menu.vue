@@ -127,6 +127,9 @@ export default {
     shownItem: null,
     searchQuery: '',
   }),
+  head: vm => ({
+    title: 'Menu',
+  }),
   computed: {
     itemsById() {
       const itemsById = {}
