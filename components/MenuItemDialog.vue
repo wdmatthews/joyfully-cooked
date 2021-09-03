@@ -39,6 +39,30 @@
             Add
           </v-btn>
         </v-row>
+        <h4 class="mt-2 text-h6">
+          Ingredients
+        </h4>
+        <p class="mb-0">
+          {{ item.ingredients }}
+        </p>
+        <h4 class="mt-2 text-h6">
+          Common Allergens
+        </h4>
+        <p class="mb-0">
+          {{ item.commonAllergens }}
+        </p>
+        <h4 class="mt-2 text-h6">
+          Nutrition Facts
+        </h4>
+        <v-data-table
+          hide-default-footer
+          disable-sort
+          dense
+          style="background: transparent;"
+          :headers="nutritionFactHeaders"
+          :items="item.nutritionFacts"
+          :class="{ 'hide-mobile-table-header': isMobile }"
+        />
       </v-card-text>
       <v-card-actions class="px-4 pt-0 pb-4">
         <v-spacer />
@@ -68,6 +92,39 @@ export default {
   },
   data: vm => ({
     quantity: 1,
+    nutritionFactHeaders: [
+      {
+        text: 'Calories',
+        value: 'calories',
+      },
+      {
+        text: 'Fat (g)',
+        value: 'fat',
+      },
+      {
+        text: 'Carbs (g)',
+        value: 'carbs',
+      },
+      {
+        text: 'Protein (g)',
+        value: 'protein',
+      },
+    ],
   }),
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+    },
+  },
 }
 </script>
+
+<style>
+.hide-mobile-table-header .v-data-table-header.v-data-table-header-mobile {
+  display: none;
+}
+
+.hide-mobile-table-header .v-data-table__mobile-row {
+  padding: 0px !important;
+}
+</style>
