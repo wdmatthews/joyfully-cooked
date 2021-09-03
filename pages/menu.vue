@@ -5,10 +5,31 @@
     </h1>
     <v-row
       no-gutters
+      justify="center"
+      class="px-2 pt-4"
+    >
+      <v-col
+        cols="12"
+        md="6"
+        class="px-2"
+      >
+        <v-text-field
+          v-model="searchQuery"
+          label="Search"
+          outlined
+          dense
+          hide-details
+          append-icon="fas fa-search"
+        />
+      </v-col>
+    </v-row>
+    <v-row
+      no-gutters
       class="pa-2"
     >
       <v-col
         v-for="(category, i) in categories"
+        v-show="category.items.length > 0"
         :key="`category-${i}`"
         cols="12"
         md="3"
@@ -35,11 +56,16 @@ export default {
   data: vm => ({
     categories: [
       {
+        name: 'Search Results',
+        items: [],
+      },
+      {
         name: 'Breakfast',
         items: [
           {
             id: '1',
             name: 'Waffle',
+            keywords: ['waffle', 'waffles'],
             image: 'waffle.png',
             description: 'A plain waffle in a square shape.',
             price: 1.00,
@@ -57,6 +83,7 @@ export default {
           {
             id: '2',
             name: 'Pancakes',
+            keywords: ['pancake', 'pancakes'],
             image: 'pancakes.png',
             description: 'A stack of pancakes with butter and syrup.',
             price: 1.50,
@@ -79,6 +106,7 @@ export default {
           {
             id: '3',
             name: 'Turkey Sandwich',
+            keywords: ['turkey', 'sandwich', 'sandwiches'],
             image: 'turkeysandwich.png',
             description: 'A triangle-sliced turkey, lettuce, and cheese sandwich.',
             price: 1.75,
@@ -97,6 +125,7 @@ export default {
       },
     ],
     shownItem: null,
+    searchQuery: '',
   }),
   computed: {
     itemsById() {
@@ -109,6 +138,29 @@ export default {
       })
       
       return itemsById
+    },
+  },
+  watch: {
+    searchQuery(value) {
+      const searchResults = []
+      const searchQuery = value.toLowerCase().replace(/[^a-z ]/g, '').split(' ')
+      const searchQueryLength = searchQuery.length
+      
+      if (searchQueryLength > 0) {
+        this.categories.forEach((category, index) => {
+          if (index === 0) { return }
+          category.items.forEach((item) => {
+            for (let i = 0; i < searchQueryLength; i++) {
+              if (item.keywords.includes(searchQuery[i])) {
+                searchResults.push(item)
+                break
+              }
+            }
+          })
+        })
+      }
+      
+      this.categories[0].items = searchResults
     },
   },
   methods: {
