@@ -12,6 +12,7 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
+    '\\.(png)$': '<rootDir>/fileTransformer.js',
   },
   collectCoverage: true,
   collectCoverageFrom: [

@@ -7,7 +7,7 @@ import getters from '@/store/getters.js'
 import mutations from '@/store/mutations.js'
 
 Vue.use(Vuex)
-Vue.component('EmptyComponent', EmptyComponent)
+// Vue.component('EmptyComponent', EmptyComponent)
 
 function createEmptyComponent() {
   const wrapper = mount(EmptyComponent, {
