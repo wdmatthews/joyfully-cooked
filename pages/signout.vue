@@ -18,6 +18,7 @@ export default {
   mounted() {
     if (!this.$store.state.userId) { this.$router.push('/menu') }
     this.$store.commit('setUserId', '')
+    this.$store.commit('setUserRole', '')
   },
 }
 </script>

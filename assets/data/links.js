@@ -3,12 +3,21 @@ export default [
     icon: 'utensils',
     text: 'Menu',
     to: '/menu',
+    role: 'customer',
   },
   {
     icon: 'shopping-bag',
     text: 'Order',
     to: '/order',
+    role: 'customer',
     isOrder: true,
+  },
+  {
+    icon: 'shopping-bag',
+    text: 'Orders',
+    to: '/orders',
+    requiresAuthentication: true,
+    role: 'employee',
   },
   {
     icon: 'user',

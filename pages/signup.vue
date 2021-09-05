@@ -65,6 +65,7 @@ export default {
     signUp() {
       if (!this.formIsValid) { return }
       this.$store.commit('setUserId', '1')
+      this.$store.commit('setUserRole', 'customer')
       this.$router.push('/menu')
     },
   },

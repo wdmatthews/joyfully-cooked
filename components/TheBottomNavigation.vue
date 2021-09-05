@@ -40,10 +40,11 @@ export default {
     },
     links() {
       return links.filter((link) => {
-        const { userId } = this.$store.state
-        return (!link.requiresAuthentication && !link.requiresNoAuthentication)
-          || (link.requiresAuthentication && userId)
-          || (link.requiresNoAuthentication && !userId)
+        const { userId, userRole } = this.$store.state
+        return (!link.role || (!userRole && link.role !== 'employee') || link.role === userRole)
+          && ((!link.requiresAuthentication && !link.requiresNoAuthentication)
+            || (link.requiresAuthentication && userId)
+            || (link.requiresNoAuthentication && !userId))
       })
     },
   },
