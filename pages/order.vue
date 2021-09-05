@@ -335,14 +335,14 @@ export default {
         const favoriteOrder = this.favoriteOrders[i]
         
         if (favoriteOrder.name === this.favoriteOrderName) {
-          favoriteOrder.items = this.items
+          favoriteOrder.items = [...this.items]
           isOverwritingOrder = true
           break
         }
       }
       
       if (!isOverwritingOrder) {
-        this.favoriteOrders.push({ name: this.favoriteOrderName, items: this.items })
+        this.favoriteOrders.push({ name: this.favoriteOrderName, items: [...this.items] })
       }
       
       this.addFavoriteDialogIsVisible = false
