@@ -111,14 +111,22 @@
           <v-card-title class="text-h5 blue-grey darken-3">
             <span class="mx-auto">Payment Details</span>
           </v-card-title>
-          <v-card-text class="pa-4">
+          <v-card-text class="px-4 pt-4 pb-0">
             <p class="mb-0 text-center">
               Subtotal: ${{ subtotal.toFixed(2) }}<br>
               Taxes: ${{ taxes.toFixed(2) }}
             </p>
-            <p class="mb-0 text-center text-h6">
+            <p class="mb-2 text-center text-h6">
               Total: ${{ total.toFixed(2) }}
             </p>
+            <v-text-field
+              v-model="specialInstructions"
+              label="Special Instructions"
+              placeholder="No cheese on the sandwich, please"
+              outlined
+              dense
+              :counter="100"
+            />
           </v-card-text>
           <v-card-actions class="px-4 pt-0 pb-4">
             <v-spacer />
@@ -126,6 +134,7 @@
               color="primary"
               outlined
               class="text-button"
+              :disabled="specialInstructions.length > 100"
               @click="purchaseOrder"
             >
               <v-icon left>
@@ -257,6 +266,7 @@ export default {
   data: vm => ({
     items: [],
     taxRate: 0.05,
+    specialInstructions: '',
     favoriteOrders: [],
     addFavoriteDialogIsVisible: false,
     favoriteOrderName: '',
@@ -324,8 +334,10 @@ export default {
       this.$store.commit('removeAllItems')
     },
     purchaseOrder() {
+      if (this.specialInstructions.length > 100) { return }
       this.$store.commit('removeAllItems')
-      this.$refs.responseSnackbar.show('Order purchased successfully', 'success', 'check-circle')
+      this.specialInstructions = ''
+      this.$router.push('/thanks')
     },
     addOrderToFavorites() {
       if (!this.favoriteOrderName) { return }
