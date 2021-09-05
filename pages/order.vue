@@ -209,6 +209,7 @@
             outlined
             dense
             hide-details
+            @keydown.enter="addOrderToFavorites"
           />
         </v-card-text>
         <v-card-actions class="px-4 pt-0 pb-4">
@@ -242,6 +243,7 @@
     </v-dialog>
     <order-favorite-dialog
       :order="shownFavoriteOrder"
+      @load="loadShownFavoriteOrder"
       @close="shownFavoriteOrder = null"
     />
     <response-snackbar ref="responseSnackbar" />
@@ -255,17 +257,7 @@ export default {
   data: vm => ({
     items: [],
     taxRate: 0.05,
-    favoriteOrders: [
-      {
-        name: 'Waffles for Everyone',
-        items: [
-          {
-            id: '1',
-            quantity: 4,
-          },
-        ],
-      },
-    ],
+    favoriteOrders: [],
     addFavoriteDialogIsVisible: false,
     favoriteOrderName: '',
     shownFavoriteOrder: null,
@@ -336,6 +328,7 @@ export default {
       this.$refs.responseSnackbar.show('Order purchased successfully', 'success', 'check-circle')
     },
     addOrderToFavorites() {
+      if (!this.favoriteOrderName) { return }
       let isOverwritingOrder = false
       
       for (let i = this.favoriteOrders.length - 1; i >= 0; i--) {
@@ -359,6 +352,11 @@ export default {
       const { name } = this.favoriteOrders[index]
       this.favoriteOrders.splice(index, 1)
       this.$refs.responseSnackbar.show(`Favorite order '${name}' removed`, 'success', 'check-circle')
+    },
+    loadShownFavoriteOrder() {
+      this.items = this.shownFavoriteOrder.items
+      this.$store.commit('loadItems', [...this.items])
+      this.shownFavoriteOrder = null
     },
   },
 }

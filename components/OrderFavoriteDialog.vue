@@ -35,6 +35,18 @@
           </v-icon>
           Close
         </v-btn>
+        <v-btn
+          color="primary"
+          outlined
+          text
+          class="text-button"
+          @click="$emit('load')"
+        >
+          <v-icon left>
+            fas fa-shopping-bag
+          </v-icon>
+          Load
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

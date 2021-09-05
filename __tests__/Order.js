@@ -8,11 +8,13 @@ import getters from '@/store/getters.js'
 import mutations from '@/store/mutations.js'
 import ResponseSnackbar from '@/components/ResponseSnackbar.vue'
 import QuantityField from '@/components/QuantityField.vue'
+import OrderFavoriteDialog from '@/components/OrderFavoriteDialog.vue'
 
 Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.component('ResponseSnackbar', ResponseSnackbar)
 Vue.component('QuantityField', QuantityField)
+Vue.component('OrderFavoriteDialog', OrderFavoriteDialog)
 Vue.component('NuxtLink', { template: '<span></span>' })
 
 function createOrder() {
@@ -74,5 +76,79 @@ describe('Order', () => {
     vm.purchaseOrder()
     
     expect(vm.$store.state.items.length).toBe(0)
+  })
+  
+  test('adds favorite order', () => {
+    const { vm } = createOrder()
+    
+    vm.$store.commit('addItemToOrder', { item: { id: '1' }, quantity: 1 })
+    vm.$store.commit('addItemToOrder', { item: { id: '2' }, quantity: 1 })
+    vm.items = [
+      { id: '1', quantity: 1, image: 'waffle.png' },
+      { id: '2', quantity: 1, image: 'waffle.png' },
+    ]
+    vm.favoriteOrderName = 'Favorite Order'
+    vm.addOrderToFavorites()
+    
+    expect(vm.favoriteOrders.length).toBe(1)
+  })
+  
+  test('overwrites favorite order', () => {
+    const { vm } = createOrder()
+    
+    vm.$store.commit('addItemToOrder', { item: { id: '1' }, quantity: 1 })
+    vm.$store.commit('addItemToOrder', { item: { id: '2' }, quantity: 1 })
+    vm.items = [
+      { id: '1', quantity: 1, image: 'waffle.png' },
+      { id: '2', quantity: 1, image: 'waffle.png' },
+    ]
+    vm.favoriteOrderName = 'Favorite Order'
+    vm.addOrderToFavorites()
+    vm.$store.commit('addItemToOrder', { item: { id: '1' }, quantity: 1 })
+    vm.items = [
+      { id: '1', quantity: 1, image: 'waffle.png' },
+      { id: '2', quantity: 2, image: 'waffle.png' },
+    ]
+    vm.addOrderToFavorites()
+    
+    expect(vm.favoriteOrders[0].items[1].quantity).toBe(2)
+  })
+  
+  test('removes favorite order', () => {
+    const { vm } = createOrder()
+    
+    vm.$store.commit('addItemToOrder', { item: { id: '1' }, quantity: 1 })
+    vm.$store.commit('addItemToOrder', { item: { id: '2' }, quantity: 1 })
+    vm.items = [
+      { id: '1', quantity: 1, image: 'waffle.png' },
+      { id: '2', quantity: 1, image: 'waffle.png' },
+    ]
+    vm.favoriteOrderName = 'Favorite Order'
+    vm.addOrderToFavorites()
+    vm.removeFavoriteOrder(0)
+    
+    expect(vm.favoriteOrders.length).toBe(0)
+  })
+  
+  test('loads favorite order', () => {
+    const { vm } = createOrder()
+    
+    vm.$store.commit('addItemToOrder', { item: { id: '1' }, quantity: 1 })
+    vm.$store.commit('addItemToOrder', { item: { id: '2' }, quantity: 1 })
+    vm.items = [
+      { id: '1', quantity: 1, image: 'waffle.png' },
+      { id: '2', quantity: 1, image: 'waffle.png' },
+    ]
+    vm.favoriteOrderName = 'Favorite Order'
+    vm.addOrderToFavorites()
+    vm.removeAllItems()
+    
+    expect(vm.items.length).toBe(0)
+    
+    vm.shownFavoriteOrder = vm.favoriteOrders[0]
+    vm.loadShownFavoriteOrder()
+    
+    expect(vm.favoriteOrders.length).toBe(1)
+    expect(vm.items.length).toBe(2)
   })
 })
