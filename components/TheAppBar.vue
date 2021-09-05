@@ -54,12 +54,17 @@
 import links from '~/assets/data/links'
 
 export default {
-  data: vm => ({
-    links,
-  }),
   computed: {
     totalOrderQuantity() {
       return this.$store.getters.totalOrderQuantity
+    },
+    links() {
+      return links.filter((link) => {
+        const { userId } = this.$store.state
+        return (!link.requiresAuthentication && !link.requiresNoAuthentication)
+          || (link.requiresAuthentication && userId)
+          || (link.requiresNoAuthentication && !userId)
+      })
     },
   },
 }

@@ -56,6 +56,9 @@ export default {
       return this.email && passwordLength >= 8 && passwordLength <= 32
     },
   },
+  mounted() {
+    if (this.$store.state.userId) { this.$router.push('/menu') }
+  },
   methods: {
     signUp() {
       if (!this.formIsValid) { return }
