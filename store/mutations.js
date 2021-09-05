@@ -32,4 +32,7 @@ export default {
     state.items = []
     window.localStorage.setItem('order', JSON.stringify(state.items))
   },
+  setUserId(state, userId) {
+    state.userId = userId
+  },
 }

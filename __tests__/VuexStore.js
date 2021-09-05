@@ -74,4 +74,12 @@ describe('VuexStore', () => {
     
     expect(vm.$store.state.items.length).toBe(0)
   })
+  
+  test('sets the user id', () => {
+    const { vm } = createEmptyComponent()
+    
+    vm.$store.commit('setUserId', '1')
+    
+    expect(vm.$store.state.userId).toBe('1')
+  })
 })
