@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import Vuex, { Store } from 'vuex'
 import Vuetify from 'vuetify'
 import Order from '@/pages/order.vue'
@@ -10,6 +11,7 @@ import ResponseSnackbar from '@/components/ResponseSnackbar.vue'
 import QuantityField from '@/components/QuantityField.vue'
 import OrderFavoriteDialog from '@/components/OrderFavoriteDialog.vue'
 
+Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.component('ResponseSnackbar', ResponseSnackbar)
@@ -24,6 +26,7 @@ function createOrder() {
       getters,
       mutations,
     }),
+    router: new VueRouter(),
     vuetify: new Vuetify(),
   })
   return { wrapper, vm: wrapper.vm }

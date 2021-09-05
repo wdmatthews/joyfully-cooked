@@ -35,4 +35,7 @@ export default {
   setUserId(state, userId) {
     state.userId = userId
   },
+  setUserRole(state, userRole) {
+    state.userRole = userRole
+  },
 }

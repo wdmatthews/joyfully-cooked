@@ -7,7 +7,6 @@ import getters from '@/store/getters.js'
 import mutations from '@/store/mutations.js'
 
 Vue.use(Vuex)
-// Vue.component('EmptyComponent', EmptyComponent)
 
 function createEmptyComponent() {
   const wrapper = mount(EmptyComponent, {
@@ -81,5 +80,13 @@ describe('VuexStore', () => {
     vm.$store.commit('setUserId', '1')
     
     expect(vm.$store.state.userId).toBe('1')
+  })
+  
+  test('sets the user role', () => {
+    const { vm } = createEmptyComponent()
+    
+    vm.$store.commit('setUserRole', 'customer')
+    
+    expect(vm.$store.state.userRole).toBe('customer')
   })
 })
