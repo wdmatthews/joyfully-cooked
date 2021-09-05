@@ -8,18 +8,13 @@
   >
     <v-card class="blue-grey darken-4">
       <v-card-title class="text-h5 blue-grey darken-3">
-        <span class="mx-auto">Sign Up</span>
+        <span class="mx-auto">Reset Password</span>
       </v-card-title>
       <v-card-text class="px-4 pt-4 pb-0">
-        <email-field
-          v-model="email"
-          class="mb-n1"
-          @enter="signUp"
-        />
         <password-field
           v-model="password"
           class="mb-n1"
-          @enter="signUp"
+          @enter="resetPassword"
         />
       </v-card-text>
       <v-card-actions class="px-4 pt-0 pb-4">
@@ -29,12 +24,12 @@
           outlined
           class="text-button"
           :disabled="!formIsValid"
-          @click="signUp"
+          @click="resetPassword"
         >
           <v-icon left>
-            fas fa-user-plus
+            fas fa-redo
           </v-icon>
-          Sign Up
+          Reset
         </v-btn>
         <v-spacer />
       </v-card-actions>
@@ -46,26 +41,21 @@
 <script>
 export default {
   data: vm => ({
-    email: '',
     password: '',
   }),
   head: vm => ({
-    title: 'Sign Up',
+    title: 'Reset Your Password',
   }),
   computed: {
     formIsValid() {
       const passwordLength = this.password.length
-      return this.email && passwordLength >= 8 && passwordLength <= 32
+      return passwordLength >= 8 && passwordLength <= 32
     },
   },
-  mounted() {
-    if (this.$store.state.userId) { this.$router.push('/menu') }
-  },
   methods: {
-    signUp() {
+    resetPassword() {
       if (!this.formIsValid) { return }
-      this.$store.commit('setUserId', '1')
-      this.$router.push('/menu')
+      this.$refs.responseSnackbar.show('Password reset successfully', 'success', 'check-circle')
     },
   },
 }

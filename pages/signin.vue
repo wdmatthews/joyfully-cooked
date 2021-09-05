@@ -10,13 +10,15 @@
       <v-card-title class="text-h5 blue-grey darken-3">
         <span class="mx-auto">Sign In</span>
       </v-card-title>
-      <v-card-text class="pa-4">
+      <v-card-text class="px-4 pt-4 pb-2">
         <email-field
           v-model="email"
+          class="mb-n1"
           @enter="signIn"
         />
         <password-field
           v-model="password"
+          class="mb-n1"
           @enter="signIn"
         />
         <p class="mb-0">
