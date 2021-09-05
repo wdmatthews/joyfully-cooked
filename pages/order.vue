@@ -250,7 +250,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <order-favorite-dialog
+    <order-dialog
+      favorite
       :order="shownFavoriteOrder"
       @load="loadShownFavoriteOrder"
       @close="shownFavoriteOrder = null"

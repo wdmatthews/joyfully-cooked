@@ -36,6 +36,7 @@
           Close
         </v-btn>
         <v-btn
+          v-if="favorite"
           color="primary"
           outlined
           text
@@ -58,6 +59,10 @@ export default {
     order: {
       type: Object,
       default: () => {},
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
     },
   },
   data: vm => ({

@@ -9,14 +9,14 @@ import getters from '@/store/getters.js'
 import mutations from '@/store/mutations.js'
 import ResponseSnackbar from '@/components/ResponseSnackbar.vue'
 import QuantityField from '@/components/QuantityField.vue'
-import OrderFavoriteDialog from '@/components/OrderFavoriteDialog.vue'
+import OrderDialog from '~/components/OrderDialog.vue'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.component('ResponseSnackbar', ResponseSnackbar)
 Vue.component('QuantityField', QuantityField)
-Vue.component('OrderFavoriteDialog', OrderFavoriteDialog)
+Vue.component('OrderDialog', OrderDialog)
 Vue.component('NuxtLink', { template: '<span></span>' })
 
 function createOrder() {
