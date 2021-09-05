@@ -85,6 +85,18 @@
                 </v-icon>
                 Remove All
               </v-btn>
+              <v-btn
+                v-show="userId"
+                color="primary"
+                outlined
+                class="ml-2 text-button"
+                @click="addFavoriteDialogIsVisible = true"
+              >
+                <v-icon left>
+                  fas fa-star
+                </v-icon>
+                Favorite
+              </v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -125,7 +137,113 @@
           </v-card-actions>
         </v-card>
       </v-col>
+      <v-col
+        v-show="userId"
+        cols="12"
+        md="6"
+        class="mx-auto pa-2"
+      >
+        <v-card color="blue-grey darken-4">
+          <v-card-title class="text-h5 blue-grey darken-3">
+            <span class="mx-auto">Favorite Orders</span>
+          </v-card-title>
+          <v-card-text class="pa-4">
+            <p
+              v-show="favoriteOrders.length === 0"
+              class="mb-0 text-center"
+            >
+              You do not have any favorites yet.<br>
+              You can save your current order as a favorite above.
+            </p>
+            <v-list
+              color="transparent"
+              dense
+              class="py-0"
+            >
+              <v-list-item
+                v-for="(favoriteOrder, i) in favoriteOrders"
+                :key="`favorite-order-${i}`"
+                class="px-0"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="favoriteOrder.name" />
+                </v-list-item-content>
+                <v-list-item-icon style="height: 36px;">
+                  <v-btn
+                    icon
+                    @click="shownFavoriteOrder = favoriteOrder"
+                  >
+                    <v-icon color="primary">
+                      fas fa-eye
+                    </v-icon>
+                  </v-btn>
+                </v-list-item-icon>
+                <v-list-item-icon style="height: 36px;">
+                  <v-btn
+                    icon
+                    @click="removeFavoriteOrder(i)"
+                  >
+                    <v-icon color="error">
+                      fas fa-trash
+                    </v-icon>
+                  </v-btn>
+                </v-list-item-icon>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
+    <v-dialog
+      v-model="addFavoriteDialogIsVisible"
+      width="500"
+    >
+      <v-card class="blue-grey darken-4">
+        <v-card-title class="pa-4 text-h5 blue-grey darken-3">
+          <span class="mx-auto">Add Favorite Order</span>
+        </v-card-title>
+        <v-card-text class="pa-4">
+          <v-text-field
+            v-model="favoriteOrderName"
+            label="Name"
+            outlined
+            dense
+            hide-details
+          />
+        </v-card-text>
+        <v-card-actions class="px-4 pt-0 pb-4">
+          <v-spacer />
+          <v-btn
+            outlined
+            text
+            class="text-button"
+            @click="addFavoriteDialogIsVisible = false"
+          >
+            <v-icon left>
+              fas fa-times
+            </v-icon>
+            Close
+          </v-btn>
+          <v-btn
+            color="primary"
+            outlined
+            text
+            class="text-button"
+            :disabled="!favoriteOrderName"
+            @click="addOrderToFavorites"
+          >
+            <v-icon left>
+              fas fa-star
+            </v-icon>
+            Favorite
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <order-favorite-dialog
+      :order="shownFavoriteOrder"
+      @close="shownFavoriteOrder = null"
+    />
     <response-snackbar ref="responseSnackbar" />
   </div>
 </template>
@@ -137,6 +255,20 @@ export default {
   data: vm => ({
     items: [],
     taxRate: 0.05,
+    favoriteOrders: [
+      {
+        name: 'Waffles for Everyone',
+        items: [
+          {
+            id: '1',
+            quantity: 4,
+          },
+        ],
+      },
+    ],
+    addFavoriteDialogIsVisible: false,
+    favoriteOrderName: '',
+    shownFavoriteOrder: null,
   }),
   head: vm => ({
     title: 'Order',
@@ -167,6 +299,9 @@ export default {
         return itemsById
       }, {})
     },
+    userId() {
+      return this.$store.state.userId
+    },
   },
   mounted() {
     this.$store.state.items.forEach((item) => {
@@ -174,6 +309,13 @@ export default {
         ...this.allItemsById[item.id],
         ...item,
       })
+    })
+    
+    this.favoriteOrders.forEach((favoriteOrder) => {
+      for (let i = favoriteOrder.items.length - 1; i >= 0; i--) {
+        const item = favoriteOrder.items[i]
+        favoriteOrder.items[i] = { ...this.allItemsById[item.id], ...item }
+      }
     })
   },
   methods: {
@@ -192,6 +334,31 @@ export default {
     purchaseOrder() {
       this.$store.commit('removeAllItems')
       this.$refs.responseSnackbar.show('Order purchased successfully', 'success', 'check-circle')
+    },
+    addOrderToFavorites() {
+      let isOverwritingOrder = false
+      
+      for (let i = this.favoriteOrders.length - 1; i >= 0; i--) {
+        const favoriteOrder = this.favoriteOrders[i]
+        
+        if (favoriteOrder.name === this.favoriteOrderName) {
+          favoriteOrder.items = this.items
+          isOverwritingOrder = true
+          break
+        }
+      }
+      
+      if (!isOverwritingOrder) {
+        this.favoriteOrders.push({ name: this.favoriteOrderName, items: this.items })
+      }
+      
+      this.addFavoriteDialogIsVisible = false
+      this.$refs.responseSnackbar.show(`Favorite order '${this.favoriteOrderName}' added`, 'success', 'check-circle')
+    },
+    removeFavoriteOrder(index) {
+      const { name } = this.favoriteOrders[index]
+      this.favoriteOrders.splice(index, 1)
+      this.$refs.responseSnackbar.show(`Favorite order '${name}' removed`, 'success', 'check-circle')
     },
   },
 }

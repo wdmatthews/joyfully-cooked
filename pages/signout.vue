@@ -3,7 +3,7 @@
     no-gutters
     justify="center"
     align="center"
-    class="text-center"
+    class="pa-4 text-center"
     style="height: 100%;"
   >
     You were signed out successfully.<br>Enjoy the rest of your day!
