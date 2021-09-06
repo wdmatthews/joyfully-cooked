@@ -112,11 +112,20 @@
             <span class="mx-auto">Payment Details</span>
           </v-card-title>
           <v-card-text class="px-4 pt-4 pb-0">
-            <p class="mb-0 text-center">
+            <p class="mb-2 text-center">
               Subtotal: ${{ subtotal.toFixed(2) }}<br>
               Taxes: ${{ taxes.toFixed(2) }}
             </p>
-            <p class="mb-2 text-center text-h6">
+            <v-text-field
+              v-model.number="tip"
+              label="Tip"
+              outlined
+              dense
+              hide-details
+              prefix="$"
+              :placeholder="`Recommended: ${recommendedTip.toFixed(2)}`"
+            />
+            <p class="my-2 text-center text-h6">
               Total: ${{ total.toFixed(2) }}
             </p>
             <v-text-field
@@ -272,6 +281,8 @@ export default {
     addFavoriteDialogIsVisible: false,
     favoriteOrderName: '',
     shownFavoriteOrder: null,
+    tip: '',
+    unwatchItems: null,
   }),
   head: vm => ({
     title: 'Order',
@@ -288,8 +299,12 @@ export default {
     taxes() {
       return this.taxRate * this.subtotal
     },
+    recommendedTip() {
+      return this.subtotal * 0.15
+    },
     total() {
-      return this.subtotal + this.taxes
+      const total = this.subtotal + this.taxes + (!isNaN(this.tip) ? Number(this.tip) : 0)
+      return Math.round(total * 100) / 100
     },
     allItems() {
       return categories.reduce((items, category) => {
@@ -307,11 +322,14 @@ export default {
     },
   },
   mounted() {
-    this.$store.state.items.forEach((item) => {
-      this.items.push({
-        ...this.allItemsById[item.id],
-        ...item,
+    this.unwatchItems = this.$watch(() => this.$store.state.items, () => {
+      this.$store.state.items.forEach((item) => {
+        this.items.push({
+          ...this.allItemsById[item.id],
+          ...item,
+        })
       })
+      this.unwatchItems()
     })
     
     this.favoriteOrders.forEach((favoriteOrder) => {
