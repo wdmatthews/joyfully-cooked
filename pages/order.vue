@@ -322,13 +322,10 @@ export default {
     },
   },
   mounted() {
+    this.loadItems()
     this.unwatchItems = this.$watch(() => this.$store.state.items, () => {
-      this.$store.state.items.forEach((item) => {
-        this.items.push({
-          ...this.allItemsById[item.id],
-          ...item,
-        })
-      })
+      this.items = []
+      this.loadItems()
       this.unwatchItems()
     })
     
@@ -340,6 +337,14 @@ export default {
     })
   },
   methods: {
+    loadItems() {
+      this.$store.state.items.forEach((item) => {
+        this.items.push({
+          ...this.allItemsById[item.id],
+          ...item,
+        })
+      })
+    },
     setItemQuantity(index, quantity) {
       this.$store.commit('setItemQuantity', { index, quantity })
       this.items[index].quantity = quantity
