@@ -21,6 +21,13 @@
           :items="order.items"
           :class="{ 'hide-mobile-table-header': isMobile }"
         />
+        <p
+          v-show="order.tip != null"
+          class="mb-0 pt-4"
+        >
+          <strong>Tip</strong>: ${{ order.tip.toFixed(2) }}<br>
+          <strong>Instructions</strong>: {{ order.instructions }}
+        </p>
       </v-card-text>
       <v-card-actions class="px-4 pt-0 pb-4">
         <v-spacer />

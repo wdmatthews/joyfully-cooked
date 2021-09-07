@@ -83,6 +83,8 @@ export default {
             quantity: 1,
           },
         ],
+        tip: 0.15,
+        instructions: 'No cheese on the sandwich, please',
       },
     ],
     shownOrder: null,
