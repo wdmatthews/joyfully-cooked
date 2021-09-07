@@ -1,5 +1,5 @@
 # joyfully-cooked
-Delicious foods with a sprinkle of joy
+Delicious food with a sprinkle of joy
 
 ## Shoutouts
 Delicious images brought to you by [Kenney](https://www.kenney.nl/)'s [Food Kit](https://www.kenney.nl/assets/food-kit)

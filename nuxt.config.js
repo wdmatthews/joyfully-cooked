@@ -14,7 +14,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Delicious foods with a sprinkle of joy' },
+      { hid: 'description', name: 'description', content: 'Delicious food with a sprinkle of joy' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [

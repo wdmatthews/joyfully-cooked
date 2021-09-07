@@ -4,7 +4,7 @@
       Joyfully Cooked
     </h1>
     <h2 class="text-h5 text-center">
-      Delicious foods with a sprinkle of joy
+      Delicious food with a sprinkle of joy
     </h2>
     <h3 class="text-h6 text-center mt-4">
       Our Values
