@@ -1,3 +1,92 @@
 export default [
-  
+  {
+    id: '20',
+    name: 'Water',
+    keywords: ['water'],
+    image: 'water.png',
+    description: 'A cup of water',
+    price: 0.00,
+    ingredients: 'Water',
+    commonAllergens: '',
+    nutritionFacts: [
+      {
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+    ],
+  },
+  {
+    id: '21',
+    name: 'Unsweetened Tea',
+    keywords: ['unsweetened', 'tea'],
+    image: 'tea.png',
+    description: 'A cup of unsweetened tea',
+    price: 1.00,
+    ingredients: 'Tea',
+    commonAllergens: '',
+    nutritionFacts: [
+      {
+        calories: 12,
+        fat: 0,
+        carbs: 3,
+        protein: 0,
+      },
+    ],
+  },
+  {
+    id: '22',
+    name: 'Sweet Tea',
+    keywords: ['sweet', 'tea'],
+    image: 'tea.png',
+    description: 'A cup of sweet tea',
+    price: 1.00,
+    ingredients: 'Tea, sugar',
+    commonAllergens: '',
+    nutritionFacts: [
+      {
+        calories: 15,
+        fat: 0,
+        carbs: 4,
+        protein: 0,
+      },
+    ],
+  },
+  {
+    id: '23',
+    name: 'Coffee',
+    keywords: ['coffee'],
+    image: 'coffee.png',
+    description: 'A cup of coffee',
+    price: 1.00,
+    ingredients: 'Coffee, sugar',
+    commonAllergens: '',
+    nutritionFacts: [
+      {
+        calories: 15,
+        fat: 0,
+        carbs: 3,
+        protein: 0,
+      },
+    ],
+  },
+  {
+    id: '24',
+    name: 'Grape Soda',
+    keywords: ['grape', 'soda'],
+    image: 'grapesoda.png',
+    description: 'A cup of grape flavored soda',
+    price: 1.00,
+    ingredients: 'Grapes, sugar, water',
+    commonAllergens: '',
+    nutritionFacts: [
+      {
+        calories: 10,
+        fat: 0,
+        carbs: 5,
+        protein: 0,
+      },
+    ],
+  },
 ]
